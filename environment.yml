@@ -1,0 +1,16 @@
+name: cuda
+channels:
+  - nvidia
+  - pytorch
+dependencies:
+  - pytorch
+  - torchvision
+  - torchaudio
+  - python=3.7
+  - tensorflow
+  - matplotlib
+  - scikit-image
+  - pillow
+
+prefix: /anaconda3/envs/cuda
+
