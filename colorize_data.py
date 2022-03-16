@@ -1,30 +1,23 @@
+import glob
 from typing import Tuple
 
-
-import torchvision.transforms as T
 import torch
-import numpy as np
-import os
-import glob
-import torchvision.transforms.functional as TF
-
+import torchvision.transforms as T
 from skimage import io
 from skimage.color import rgb2lab, rgb2gray
 from torch.utils.data import Dataset
+
+import Transforms
 from utils import image_to_tensor, tensor_to_image
+
 
 class ColorizeData(Dataset):
     def __init__(self, root, split='train'):
-        self.input_shape_transform = T.Compose([T.ToTensor(),
-                                                T.Resize(size=(256, 256)),
-                                                T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+        self.input_shape_transform = Transforms.input_shape_transform
 
         # Data Augmentation for training
         if split == 'train':
             self.input_shape_transform = T.Compose([self.input_shape_transform, T.RandomHorizontalFlip()])
-
-        #To convert images to grayscale
-        self.gray_transform = T.Compose([self.input_shape_transform, T.Grayscale])
 
         self.root = root
         file_list = glob.glob(self.root + "*")

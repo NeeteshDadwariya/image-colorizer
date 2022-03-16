@@ -85,6 +85,7 @@ class Trainer:
 
         self.save_model(best_state)
 
+        #To safely save model
         time.sleep(5)
 
         self.predict(model)
@@ -211,7 +212,3 @@ class Trainer:
     def save_model(self, model_params):
         torch.save(model_params, best_model_params_path)
         torch.save(model_params['state_dict'], best_model_path)
-
-trainer = Trainer()
-trainer.train()
-#trainer.predict(ColorNet())

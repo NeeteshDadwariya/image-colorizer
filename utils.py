@@ -3,12 +3,10 @@ import shutil
 
 import matplotlib.pyplot as plt
 import numpy as np
+import torch
 from skimage.color import lab2rgb
 
 plt.switch_backend('agg')
-
-import torch
-
 
 def save_checkpoint(state, is_best_so_far, filename, best_model_path):
     '''Saves checkpoint, and replace the old best model if the current model is better'''

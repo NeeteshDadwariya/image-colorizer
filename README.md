@@ -8,7 +8,7 @@ Create a conda environment with pytorch, cuda.
 
 For systems without a dedicated gpu, you may use a CPU version of pytorch.
 `$ conda install pytorch torchvision torchaudio cpuonly -c pytorch`
-
+    
 ## Dataset
 Use the zipfile provided as your dataset. You are expected to split your dataset to create a validation set for initial testing. Your final model can use the entire dataset for training. Note that this model will be evaluated on a test dataset not visible to you.
 
