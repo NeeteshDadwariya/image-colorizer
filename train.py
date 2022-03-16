@@ -1,22 +1,23 @@
 import json
 import os
-import shutil
 import time
+from types import SimpleNamespace
+
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
-from types import SimpleNamespace
 
-from basic_model import Net, ColorNet
+from basic_model import ColorNet
 from colorize_data import ColorizeData
-from utils import AverageMeter, save_checkpoint, visualize_image, create_and_get_path
+from utils import AverageMeter, visualize_image, create_and_get_path
 
 # Current best losses
 best_losses = 1000.0
 use_gpu = torch.cuda.is_available()
 
+# Define hparams here or load them from a config file
+# Opening JSON file
 hyperparams = {}
 with open('hyperparams.json') as json_file:
     hyperparams = json.loads(json_file.read(), object_hook=lambda d: SimpleNamespace(**d))
@@ -32,8 +33,7 @@ best_model_path = checkpoint_dir + '/best_model.tar'
 
 class Trainer:
     def __init__(self):
-        # Define hparams here or load them from a config file
-        # Opening JSON file
+
         self.train_dataset = ColorizeData(train_dir, split='train')
         self.train_dataloader = DataLoader(self.train_dataset,
                                            batch_size=hyperparams.batch_size,
@@ -47,7 +47,9 @@ class Trainer:
         global best_losses, use_gpu
 
         # Create Model
+        #model = Net()
         model = ColorNet()
+
         # Use GPU if available
         if use_gpu:
             model.cuda()

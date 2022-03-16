@@ -3,7 +3,7 @@
   "data_path": "./data",
   "learning_rate": 0.1,
   "print_freq": 10,
-  "epochs": 100,
+  "epochs": 5,
   "weight_decay": 1e-10,
   "workers": 0
 }

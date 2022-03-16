@@ -28,6 +28,36 @@ Baseline Model: A baseline model is available in `basic_model.py` You may use th
 You are tasked to control the average color/mood of the image that you are colorizing. What are some ideas that come to your mind? (Bonus: Implement)
 
 ## Solution
-- Document the things you tried, what worked and did not. 
-- Update this README.md file to add instructions on how to run your code. (train, inference). 
-- Once you are done, zip the code, upload your solution.  
+- I have choosen to convert image to L*a*b color space. This is because in L*a*b color space, we can already have the 
+  first channel of brightness from the given image, and we only need to predict the rest of two channels.
+  But if I had choosen, the model needs to predict 3 channels (R,G and B) which is way difficult as compared to the 2-channel
+  approach.
+
+  If I use RGB, I have to first convert image to grayscale, feed the grayscale image to the model and hope it will 
+  predict 3 numbers which is a way more difficult and unstable task due to the many more possible combinations of 3 
+  numbers compared to two numbers. If we assume we have 256 choices (in a 8-bit unsigned integer image this is the 
+  real number of choices) for each number, predicting the three numbers for each of the pixels is choosing between 
+  256³ combinations which is more than 16 million choices, but when predicting two numbers we have about 65000 choices
+
+- Model Performance:
+  - Model performance can be measured in the terms of MSE loss between (target_ab, predicted_ab) channels of the image.
+  - This is suitable error metric, as it will try to bring the model weights closer to the original image pixel values.
+
+- Inference Script:
+  - Inference script has been implemented in the file `inference.py` and can be run via main command. (Details below.)
+
+- Tried things that worked, and which did not - 
+  - Able to implement the whole train and inference pipeline with the required details.
+  - Since new to PyTorch, faced difficulties while setting up the whole pipeline.
+  - Using ResNet architecture and sigmoid output.
+  - Model losses are approx ~680. Output images are partially colored. Could not test on full dataset.
+
+- How to run the program - 
+  - Install all dependencies present in environment.yml using `conda env create -f environment.yml`
+  - Please note the data should be present in the following tree:
+    - All train images at: `./data/input/train/`
+    - All validation images at: `./data/input/val/`
+    - The output images will go at: `./data/output/`
+    - Best model is saved at - `./checkpoints/best_model.tar`
+  - To run the train pipeline, use command - `python main.py train`.
+  - To run the inference pipeline, use command - `python main.py inference`

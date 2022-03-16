@@ -45,7 +45,6 @@ def visualize_image(grayscale_input, ab_input=None, show_image=False, save_path=
         color_image = torch.cat((grayscale_input, ab_input), 0).numpy()
         color_image = color_image.transpose((1, 2, 0))
         color_image[:, :, 0:1] = color_image[:, :, 0:1] * 100
-        color_image[:, :, 1:3] = color_image[:, :, 1:3] * 255 - 128
         color_image = lab2rgb(color_image.astype(np.float64))
         grayscale_input = grayscale_input.squeeze().numpy()
         if save_path is not None and save_name is not None:

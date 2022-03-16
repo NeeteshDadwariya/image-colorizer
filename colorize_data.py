@@ -1,6 +1,8 @@
 import glob
 from typing import Tuple
 
+import PIL.Image
+import numpy as np
 import torch
 import torchvision.transforms as T
 from skimage import io
@@ -35,12 +37,14 @@ class ColorizeData(Dataset):
     def __getitem__(self, index: int) -> Tuple[torch.Tensor, torch.Tensor]:
         # Return the input tensor and output tensor for training
         path = self.paths[index]
-        img_rgb = io.imread(path)
-        shaped_tensor = self.input_shape_transform(img_rgb)
-        reshaped_image = tensor_to_image(shaped_tensor)
 
-        img_lab = rgb2lab(reshaped_image)
+        img_rgb = PIL.Image.open(path).convert('RGB')
+        img_original = self.input_shape_transform(img_rgb)
+        img_original = tensor_to_image(img_original)
+        img_lab = rgb2lab(img_original)
         img_ab = img_lab[:, :, 1:3]
+        img_ab = torch.from_numpy(img_ab.transpose((2, 0, 1))).float()
+        gray_image = rgb2gray(img_original)
+        gray_image = torch.from_numpy(gray_image).unsqueeze(0).float()
 
-        gray_image = rgb2gray(reshaped_image)
-        return image_to_tensor(gray_image), image_to_tensor(img_ab)
+        return gray_image, img_ab

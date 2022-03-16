@@ -1,10 +1,13 @@
+import sys
+
 from inference import Inference
 from train import Trainer
 
 
 def run_train_pipeline():
     trainer = Trainer()
-    trainer.train()
+    losses = trainer.train()
+    print("Model best loss:", losses)
 
 
 def run_inference_pipeline():
@@ -14,5 +17,9 @@ def run_inference_pipeline():
 
 
 if __name__ == "__main__":
-    run_train_pipeline()
-    run_inference_pipeline()
+    run_type = sys.argv[1]
+    print(run_type)
+    if run_type == 'train':
+        run_train_pipeline()
+    else:
+        run_inference_pipeline()
