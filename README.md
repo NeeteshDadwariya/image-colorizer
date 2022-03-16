@@ -61,3 +61,12 @@ You are tasked to control the average color/mood of the image that you are color
     - Best model is saved at - `./checkpoints/best_model.tar`
   - To run the train pipeline, use command - `python main.py train`.
   - To run the inference pipeline, use command - `python main.py inference`
+
+- Sample Inference
+
+      Grayscale Image
+  - ![Grayscale Image](./data/inference_image.jpeg)
+
+        Predicted colored Image
+  
+  - ![Predicted colored Image](./data/inference_output.jpeg)
